@@ -6,30 +6,88 @@
 
 <!-- ============================================================
      SEO / META
-     EDIT ME: replace https://recorehardware.com/ with your real
-     domain everywhere below once the site is live.
+     Live domain is https://recorehardware.in/ (Round 1, item A1).
+     HTTPS forcing and the www -> non-www redirect are host-level
+     settings, configured on Vercel/DNS — not in this file.
      ============================================================ -->
 <title>REcore Hardware | The One Stop Interior Solution — Premium Furniture Hardware Since 2008</title>
 <meta name="description" content="REcore Hardware supplies premium interior and furniture hardware since 2008 — soft-close drawer systems, telescopic slides, hinges, mortise handles, brass locks and aluminium profiles. The Jewel of Hardware.">
 <meta name="keywords" content="furniture hardware, interior hardware, soft close drawer, telescopic slide, mortise handle, brass lock, aluminium profile, kitchen hardware Surat, REcore Hardware">
 <meta name="author" content="REcore Hardware">
 <meta name="theme-color" content="#6F4317">
-<link rel="canonical" href="https://recorehardware.com/">
+<link rel="canonical" href="https://recorehardware.in/">
+
+<!-- ============================================================
+     SEARCH CONSOLE — Round 1, item C3
+     PENDING: Google Search Console verification token.
+     Verify recorehardware.in immediately after DNS propagates. Either
+     paste the token below and uncomment the tag, or use the DNS TXT
+     method on GoDaddy instead (preferred — survives redeploys).
+     <meta name="google-site-verification" content="__GSC_TOKEN__">
+     ============================================================ -->
+
+<!-- ============================================================
+     TRACKING — Round 1, items C1 and C2
+
+     PENDING: GA4 Measurement ID from agency  (format: G-XXXXXXXXXX)
+     PENDING: Meta Pixel ID from agency       (format: 15-16 digits)
+
+     Replace __GA4_MEASUREMENT_ID__ and __META_PIXEL_ID__ below AND in
+     public/thank-you/index.html — the IDs must match in both files.
+     Until they are replaced both snippets stay inert: no network calls
+     are made and no console errors are thrown.
+
+     Conversion setup lives on /thank-you/, not here:
+       - GA4  : generate_lead event, to be marked a key event in admin
+       - Meta : Lead event
+     Click events on the WhatsApp float and both click-to-call numbers
+     are wired in script.js (see trackEvent).
+     ============================================================ -->
+<script>
+  window.RECORE_GA4_ID   = '__GA4_MEASUREMENT_ID__'; /* PENDING: from agency */
+  window.RECORE_PIXEL_ID = '__META_PIXEL_ID__';      /* PENDING: from agency */
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  /* Google Analytics 4 */
+  if (window.RECORE_GA4_ID.indexOf('__') !== 0) {
+    var ga = document.createElement('script');
+    ga.async = true;
+    ga.src = 'https://www.googletagmanager.com/gtag/js?id=' + window.RECORE_GA4_ID;
+    document.head.appendChild(ga);
+
+    gtag('js', new Date());
+    gtag('config', window.RECORE_GA4_ID);
+  }
+
+  /* Meta Pixel */
+  if (window.RECORE_PIXEL_ID.indexOf('__') !== 0) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', window.RECORE_PIXEL_ID);
+    fbq('track', 'PageView');
+  }
+</script>
 
 <!-- Open Graph / Facebook / WhatsApp link preview -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="REcore Hardware">
 <meta property="og:title" content="REcore Hardware — The One Stop Interior Solution">
 <meta property="og:description" content="Premium interior and furniture hardware since 2008. Soft-close drawer systems, slides, hinges, handles, locks and aluminium profiles.">
-<meta property="og:url" content="https://recorehardware.com/">
-<meta property="og:image" content="https://recorehardware.com/assets/images/og-cover.jpg">
+<meta property="og:url" content="https://recorehardware.in/">
+<meta property="og:image" content="https://recorehardware.in/assets/images/og-cover.jpg">
 <meta property="og:image:alt" content="REcore Hardware 2026 catalogue cover — the jewel of hardware">
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="REcore Hardware — The One Stop Interior Solution">
 <meta name="twitter:description" content="Premium interior and furniture hardware since 2008.">
-<meta name="twitter:image" content="https://recorehardware.com/assets/images/og-cover.jpg">
+<meta name="twitter:image" content="https://recorehardware.in/assets/images/og-cover.jpg">
 
 <!-- Favicons -->
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
@@ -52,9 +110,9 @@
   "slogan": "The One Stop Interior Solution",
   "description": "Premium interior and furniture hardware since 2008.",
   "foundingDate": "2008",
-  "url": "https://recorehardware.com/",
-  "logo": "https://recorehardware.com/assets/images/logo.png",
-  "image": "https://recorehardware.com/assets/images/og-cover.jpg",
+  "url": "https://recorehardware.in/",
+  "logo": "https://recorehardware.in/assets/images/logo.png",
+  "image": "https://recorehardware.in/assets/images/og-cover.jpg",
   "telephone": "+919257158637",
   "address": {
     "@type": "PostalAddress",
@@ -63,7 +121,10 @@
     "addressRegion": "Gujarat",
     "addressCountry": "IN"
   },
-  "areaServed": "IN"
+  "areaServed": {
+    "@type": "State",
+    "name": "Gujarat"
+  }
 }
 </script>
 </head>
@@ -204,7 +265,7 @@
   <div class="wrap hero__inner">
     <img class="hero__mark reveal" src="assets/images/logo-mark-light.png" alt="" width="600" height="539" aria-hidden="true">
 
-    <p class="hero__eyebrow reveal" data-delay="1">Since 2008 &nbsp;·&nbsp; The Jewel of Hardware</p>
+    <p class="hero__eyebrow reveal" data-delay="1">The Jewel of Hardware</p>
 
     <h1 class="hero__title reveal" data-delay="2">
       REcore <em>Hardware</em>
@@ -212,9 +273,10 @@
     </h1>
 
     <p class="hero__sub reveal" data-delay="3">
-      Premium interior &amp; furniture hardware for architects, interior designers and carpenters —
-      soft-close drawer systems, telescopic slides, hinges, mortise handles, brass locks and
-      aluminium profiles, all under one roof.
+      Premium interior and furniture hardware supplied wholesale to hardware retailers,
+      interior showrooms and contractors across Gujarat — soft-close drawer systems,
+      telescopic slides, hinges, mortise handles, brass locks and aluminium profiles,
+      all under one roof.
     </p>
 
     <div class="hero__actions reveal" data-delay="4">
@@ -234,7 +296,7 @@
       <article class="usp__card reveal">
         <span class="usp__num">01</span>
         <h3>Since 2008</h3>
-        <p>Over a decade and a half supplying interior hardware, with a catalogue refreshed every year.</p>
+        <p>Supplying interior hardware, with a catalogue refreshed every year.</p>
       </article>
 
       <article class="usp__card reveal" data-delay="1">
@@ -245,8 +307,8 @@
 
       <article class="usp__card reveal" data-delay="2">
         <span class="usp__num">03</span>
-        <h3>Pan-India Supply</h3>
-        <p>Dealer and distributor network shipping across India, with bulk and project pricing.</p>
+        <h3>Stock Held in Surat</h3>
+        <p>Every category stocked at our own Bhatar premises, so repeat orders ship without waiting on an import cycle.</p>
       </article>
 
       <article class="usp__card reveal" data-delay="3">
@@ -448,16 +510,18 @@
         <p>Soft-close mechanisms, load-rated slides and PVD finishes — specified so they behave the same on site as they do in the showroom.</p>
       </article>
       <article class="why__card reveal" data-delay="1">
-        <h3>Warranty backed</h3>
-        <p>Manufacturer warranty on mechanisms and finishes, with replacement support handled through your dealer.</p>
+        <h3>Replacement support</h3>
+        <p>Any mechanism or finish issue is handled directly by our team in Surat, not routed through a distant supplier.</p>
+        <!-- PENDING: warranty and replacement terms from client (Round 1, "Pending from the client").
+             No warranty claim is to be restored here until confirmed in writing. -->
       </article>
       <article class="why__card reveal" data-delay="2">
-        <h3>Dealer network</h3>
-        <p>A growing pan-India network of dealers and distributors, so stock and support stay close to your project.</p>
+        <h3>Dealers across Gujarat</h3>
+        <p>We are appointing dealers across Gujarat, with protected territory for committed partners.</p>
       </article>
       <article class="why__card reveal" data-delay="3">
-        <h3>Bulk &amp; project pricing</h3>
-        <p>Transparent MRP in the printed catalogue, with dedicated pricing for contractors, builders and volume orders.</p>
+        <h3>Bulk and project pricing</h3>
+        <p>Trade pricing for dealers, contractors and volume orders, quoted against your requirement.</p>
       </article>
     </div>
   </div>
@@ -466,6 +530,21 @@
 <!-- ============================================================
      8. GALLERY
      Click any tile to open the lightbox.
+
+     To add a tile, copy one <figure class="gal__item"> below and
+     change the four things that matter. Nothing else is needed:
+     the lightbox reads .gal__item at runtime and the grid flows
+     automatically, so no CSS or JS change is required.
+
+       src      assets/images/gallery-<subject>.jpg, 1200px wide
+       alt      describe what is shown, not "gallery image"
+       width /  the image's REAL pixel size — these reserve the
+       height   space and stop the page jumping as it loads
+       caption  two or three words, shown on hover
+
+     data-delay="1" / "2" staggers the reveal animation across a
+     row; leave it off for the first item in each row of three.
+     Add gal__item--tall to make a portrait tile span two rows.
      ============================================================ -->
 <section class="section" id="gallery">
   <div class="wrap">
@@ -509,6 +588,38 @@
         <img src="assets/images/gallery-door-handle.jpg" alt="Leather-wrapped lever handle and euro cylinder on an oak entrance door" width="1200" height="900" loading="lazy" decoding="async">
         <figcaption>Entrance door hardware</figcaption>
       </figure>
+
+      <!-- Added from the 2026 catalogue photography (pages 8, 16, 25, 51
+           and the page 4-5 spread). These are catalogue images, not verified
+           site photographs, so the alt text describes only the hardware shown
+           and makes no claim about whose premises or installation it is.
+
+           Tile order is not arbitrary. At >=1200px the grid is 3 columns and
+           a --tall tile spans 2 rows, so the pantry tile sits at position 9
+           to keep all 5 rows full: 11 single tiles + 2 tall = 15 cells = 5x3
+           exactly. Inserting or removing a tile here will leave a hole in the
+           bottom row unless the count is adjusted to keep that total at a
+           multiple of 3. -->
+      <figure class="gal__item gal__item--tall reveal">
+        <img src="assets/images/gallery-pantry-unit.jpg" alt="Tall pull-out kitchen pantry unit with six stocked wire baskets" width="574" height="833" loading="lazy" decoding="async">
+        <figcaption>Kitchen pantry units</figcaption>
+      </figure>
+      <figure class="gal__item reveal" data-delay="1">
+        <img src="assets/images/gallery-main-door-handle.jpg" alt="Knurled brass and bronze main door handles laid out on a leather surface" width="828" height="619" loading="lazy" decoding="async">
+        <figcaption>Main door handles</figcaption>
+      </figure>
+      <figure class="gal__item reveal" data-delay="2">
+        <img src="assets/images/gallery-kitchen-shelf.jpg" alt="Lit open shelving above a kitchen counter with brass storage containers" width="1122" height="842" loading="lazy" decoding="async">
+        <figcaption>Modular kitchen shelving</figcaption>
+      </figure>
+      <figure class="gal__item reveal">
+        <img src="assets/images/gallery-drawer-organiser.jpg" alt="A hand opening a drawer fitted with a compartment organiser tray" width="555" height="396" loading="lazy" decoding="async">
+        <figcaption>Drawer organiser trays</figcaption>
+      </figure>
+      <figure class="gal__item reveal" data-delay="1">
+        <img src="assets/images/gallery-cylinder-lock.jpg" alt="Brass, rose gold and graphite euro cylinder locks displayed with keys" width="701" height="528" loading="lazy" decoding="async">
+        <figcaption>Brass cylinder locks</figcaption>
+      </figure>
     </div>
 
   </div>
@@ -516,9 +627,9 @@
 
 <!-- ============================================================
      9. CONTACT / ENQUIRY
-     The form has no backend: on submit it composes a WhatsApp
-     message. To switch to email instead, change FORM_MODE in
-     script.js from 'whatsapp' to 'email'.
+     The form POSTs to the backend in its action attribute and the
+     backend redirects to /thank-you/. WhatsApp is the secondary
+     button, not the submit action. See the block above the <form>.
      ============================================================ -->
 <section class="section section--cream" id="contact">
   <div class="wrap contact">
@@ -528,7 +639,7 @@
       <h2 class="sec-head__title">Enquire &amp; get the catalogue</h2>
       <p class="contact__lead">
         Tell us what you are building and we will send the 2026 price list with pricing for your
-        quantities. Dealer and distributor enquiries welcome.
+        quantities. Dealer enquiries welcome.
       </p>
 
       <ul class="contact__details">
@@ -553,8 +664,7 @@
           <span class="contact__ico"><svg aria-hidden="true"><use href="#i-mail"></use></svg></span>
           <div>
             <strong>Email</strong>
-            <!-- EDIT ME: replace with the real address -->
-            <a href="mailto:info@recorehardware.com">info@recorehardware.com</a>
+            <a href="mailto:sales@recorehardware.in">sales@recorehardware.in</a>
           </div>
         </li>
       </ul>
@@ -564,7 +674,52 @@
       </a>
     </div>
 
-    <form class="form reveal" id="enquiryForm" data-delay="1" novalidate>
+    <!-- ================================================================
+         ENQUIRY FORM — Round 1, items B1, B2, B3.
+
+         B1: the form now POSTs to Formspree, which emails every submission
+             to sales@recorehardware.in AND stores it for CSV export.
+             PENDING: Formspree form ID. Replace __FORMSPREE_FORM_ID__ in the
+             action below with the 8-character ID from the Formspree dashboard.
+             Until that is replaced the form blocks submission and says so
+             rather than silently losing the enquiry.
+         B2: firm name, city and monthly requirement are required fields.
+         B3: on success Formspree redirects to /thank-you/ (_next below).
+
+         SPAM PROTECTION — read before sign-off.
+         Shipped today: the _gotcha honeypot below (dropped server-side by
+         Formspree) plus Formspree's own server-side spam filtering, and the
+         reCAPTCHA toggle in the Formspree dashboard, which is invisible to
+         the visitor. This is NOT literal reCAPTCHA v3.
+
+         Verifying a reCAPTCHA v3 token requires a server-side secret, which
+         a static site does not have — a v3 token added here with no verifier
+         would be decoration, so none has been added. To meet item B1 to the
+         letter, the form must post to a serverless function (/api/enquiry on
+         Vercel) that verifies the token before forwarding. Flagged to the
+         agency; not implemented in this round.
+         ================================================================ -->
+    <form class="form reveal" id="enquiryForm" data-delay="1" novalidate
+          action="https://formspree.io/f/__FORMSPREE_FORM_ID__"
+          method="POST">
+
+      <!-- Identifies which form the submission came from, in the email subject
+           and in the GA4 conversion on /thank-you/. The dealership form added
+           later under E3 will carry its own value here. -->
+      <input type="hidden" name="_subject" value="Website enquiry — recorehardware.in (General enquiry form)">
+      <input type="hidden" name="form_name" value="General enquiry">
+      <input type="hidden" name="_next" value="https://recorehardware.in/thank-you/?form=enquiry">
+
+      <!-- Honeypot (B1). Hidden from people, filled in by bots; Formspree
+           drops any submission where _gotcha has a value. Not display:none
+           inline — see .form__hp in style.css, which also hides it from
+           screen readers and keyboard focus. -->
+      <div class="form__hp" aria-hidden="true">
+        <label>Do not fill this in
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+        </label>
+      </div>
+
       <div class="form__row">
         <label class="field">
           <span>Name <i>*</i></span>
@@ -581,6 +736,32 @@
       <label class="field">
         <span>Email</span>
         <input type="email" name="email" id="fEmail" autocomplete="email" placeholder="you@company.com">
+        <em class="field__err" data-err></em>
+      </label>
+
+      <!-- B2: the three dealer-qualifying fields -->
+      <div class="form__row">
+        <label class="field">
+          <span>Firm / Shop Name <i>*</i></span>
+          <input type="text" name="firm" id="fFirm" autocomplete="organization" required placeholder="Your firm or shop name">
+          <em class="field__err" data-err></em>
+        </label>
+        <label class="field">
+          <span>City <i>*</i></span>
+          <input type="text" name="city" id="fCity" autocomplete="address-level2" required placeholder="e.g. Surat">
+          <em class="field__err" data-err></em>
+        </label>
+      </div>
+
+      <label class="field">
+        <span>Monthly hardware requirement <i>*</i></span>
+        <select name="requirement" id="fRequirement" required>
+          <option value="">Select your monthly requirement</option>
+          <option>Under ₹50,000</option>
+          <option>₹50,000 – ₹2,00,000</option>
+          <option>Above ₹2,00,000</option>
+          <option>Not sure</option>
+        </select>
         <em class="field__err" data-err></em>
       </label>
 
@@ -617,12 +798,28 @@
         <textarea name="message" id="fMessage" rows="4" placeholder="Quantities, project type, city…"></textarea>
       </label>
 
-      <button class="btn btn--brand btn--block btn--lg" type="submit">
-        <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg> Send enquiry on WhatsApp
+      <!-- B1: the submit action is the real backend. WhatsApp is now the
+           secondary route, not the submit action. -->
+      <button class="btn btn--brand btn--block btn--lg" type="submit" id="enquirySubmit">
+        Send enquiry
+      </button>
+
+      <button class="btn btn--wa btn--block form__alt" type="button" id="enquiryWhatsApp">
+        <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg> Or send it on WhatsApp
       </button>
 
       <p class="form__note" id="formNote" role="status" aria-live="polite">
-        Opens WhatsApp with your enquiry ready to send. Nothing is stored on this site.
+        We reply on the number you give us, usually within one working day.
+      </p>
+
+      <p class="form__legal">
+        By sending this enquiry you agree to us contacting you about it.
+        See our <a href="/privacy-policy/">Privacy Policy</a>.
+        <span class="form__legal-recaptcha">
+          Protected by reCAPTCHA — Google's
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a> and
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.
+        </span>
       </p>
     </form>
 
@@ -670,13 +867,14 @@
       <p>56, Balaji Ind.-2, Opp. Surya Plaza,<br>U. M. Road, Bhatar, Surat,<br>Gujarat, India</p>
       <a href="tel:+919257158637">+91 92571 58637</a>
       <a href="tel:+919610361304">+91 96103 61304</a>
-      <a href="mailto:info@recorehardware.com">info@recorehardware.com</a>
+      <a href="mailto:sales@recorehardware.in">sales@recorehardware.in</a>
     </div>
 
   </div>
 
   <div class="wrap foot__base">
-    <p>&copy; <span id="year">2026</span> REcore Hardware™. All rights reserved.</p>
+    <p>&copy; <span id="year">2026</span> REcore Hardware™. All rights reserved.
+      &nbsp;·&nbsp; <a href="/privacy-policy/">Privacy Policy</a></p>
     <p class="foot__credit">
       Designed &amp; Developed by
       <a href="https://vrattiks.io" target="_blank" rel="noopener">Vrattiks</a>

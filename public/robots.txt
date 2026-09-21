@@ -1,0 +1,11 @@
+# robots.txt — recorehardware.in
+# Round 1, item D1. This file must not block the site.
+
+User-agent: *
+Allow: /
+
+# The conversion page is noindex (Round 1, item B3). It is excluded here so
+# it never appears in results, and it is kept out of the sitemap as well.
+Disallow: /thank-you/
+
+Sitemap: https://recorehardware.in/sitemap.xml

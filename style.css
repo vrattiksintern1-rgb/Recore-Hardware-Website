@@ -788,6 +788,36 @@ button { cursor: pointer; border: 0; background: none; }
   text-align: center;
 }
 .form__note.is-ok { color: #1FA855; }
+.form__note.is-err { color: #C0392B; }
+
+/* Honeypot (Round 1, B1). Must stay in the tab order's blind spot and out
+   of the accessibility tree, while remaining a real, fillable input that a
+   naive bot will complete. display:none is avoided because some bots skip
+   hidden fields; this moves it off-screen instead. */
+.form__hp {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Secondary WhatsApp route (Round 1, B1 — no longer the submit action) */
+.form__alt {
+  margin-top: 10px;
+}
+
+.form__legal {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.6;
+  text-align: center;
+}
+.form__legal a { color: var(--brown); text-decoration: underline; }
+.form__legal a:hover { color: var(--brown-light); }
+.form__legal-recaptcha { display: block; margin-top: 4px; opacity: .85; }
 
 
 /* ------------------------------------------------------------------
@@ -843,8 +873,8 @@ button { cursor: pointer; border: 0; background: none; }
   font-size: .8rem;
 }
 .foot__base p { margin: 0; }
-.foot__credit a { color: var(--brown-lighter); }
-.foot__credit a:hover { color: var(--cream); }
+.foot__base a { color: var(--brown-lighter); }
+.foot__base a:hover { color: var(--cream); }
 
 
 /* ------------------------------------------------------------------

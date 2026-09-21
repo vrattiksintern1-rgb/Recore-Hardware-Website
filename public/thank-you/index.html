@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Thank you | REcore Hardware</title>
+<meta name="description" content="Your enquiry has reached REcore Hardware. Our team will contact you shortly.">
+<meta name="theme-color" content="#6F4317">
+
+<!-- Round 1, item B3: this page must never be indexed. It exists only as the
+     conversion destination for the enquiry form. -->
+<meta name="robots" content="noindex, nofollow">
+
+<link rel="icon" href="/brand/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/brand/favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/_page.css">
+
+<!-- ================================================================
+     TRACKING — Round 1, items C1 and C2.
+     This page is the conversion destination. GA4 must record a
+     conversion on this page view, and the Meta Pixel must fire Lead.
+
+     PENDING: GA4 Measurement ID from agency  (format: G-XXXXXXXXXX)
+     PENDING: Meta Pixel ID from agency       (format: 15-16 digits)
+
+     Both snippets below are inert until the two IDs are filled in.
+     Replace __GA4_MEASUREMENT_ID__ and __META_PIXEL_ID__ in this file
+     AND in index.html — the IDs must match in both places.
+     ================================================================ -->
+
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  var RECORE_GA4_ID = '__GA4_MEASUREMENT_ID__'; /* PENDING: GA4 Measurement ID from agency */
+
+  if (RECORE_GA4_ID.indexOf('__') !== 0) {
+    gtag('config', RECORE_GA4_ID);
+    /* Conversion event for the thank-you page view. Mark "generate_lead"
+       as a key event in the GA4 admin once the property is live. */
+    gtag('event', 'generate_lead', {
+      form_name: new URLSearchParams(location.search).get('form') || 'enquiry',
+      currency: 'INR',
+      value: 0
+    });
+  }
+</script>
+
+<!-- Meta Pixel -->
+<script>
+  var RECORE_PIXEL_ID = '__META_PIXEL_ID__'; /* PENDING: Meta Pixel ID from agency */
+
+  if (RECORE_PIXEL_ID.indexOf('__') !== 0) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', RECORE_PIXEL_ID);
+    fbq('track', 'PageView');
+    fbq('track', 'Lead');   /* Round 1, C2 — Lead fires on /thank-you/ */
+  }
+</script>
+</head>
+
+<body>
+
+<div class="page__bar">
+  <div class="wrap">
+    <a href="/" aria-label="REcore Hardware — home">
+      <img src="/brand/logo-light.png" alt="REcore Hardware" width="1400" height="1150">
+    </a>
+  </div>
+</div>
+
+<main class="page">
+  <div class="wrap">
+
+    <h1>Thank you.</h1>
+    <p class="lead">Our team will contact you shortly.</p>
+
+    <p>
+      Your enquiry has reached <strong>sales@recorehardware.in</strong> and is with our team in Surat.
+      We will be in touch on the number you gave us, usually within one working day.
+    </p>
+
+    <p>
+      If you would rather speak to us now, call
+      <a href="tel:+919257158637">+91 92571 58637</a> or
+      <a href="tel:+919610361304">+91 96103 61304</a>, or message us on
+      <a href="https://wa.me/919257158637?text=Hi%20REcore%20Hardware%2C%20I%20have%20just%20submitted%20an%20enquiry%20on%20your%20website." target="_blank" rel="noopener">WhatsApp</a>.
+    </p>
+
+    <a class="btn" href="/">Back to the homepage</a>
+
+  </div>
+</main>
+
+<footer class="page__foot">
+  <div class="wrap">
+    <p>
+      &copy; 2026 REcore Hardware™. All rights reserved.
+      &nbsp;·&nbsp; <a href="/privacy-policy/">Privacy Policy</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

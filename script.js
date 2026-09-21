@@ -1,10 +1,11 @@
 /* ==========================================================================
    REcore Hardware — site behaviour
-   Vanilla JS, no dependencies, no build step.
+   Vanilla JS, no dependencies.
 
    Contents
    1.  Config (edit these first)
    2.  Small helpers
+   2b. Event tracking (GA4 + Meta Pixel)
    3.  Sticky navbar
    4.  Mobile nav drawer
    5.  Smooth scroll with navbar offset
@@ -28,13 +29,13 @@
     whatsapp: '919257158637',        // Radhey bhai — +91 92571 58637
     whatsappAlt: '919610361304',     // Bhagirath bhai — +91 96103 61304 (not used by the form)
 
-    // EDIT ME: the address enquiries should go to in 'email' mode.
-    email: 'info@recorehardware.com',
+    // Where enquiries are delivered (Round 1, item A2).
+    email: 'sales@recorehardware.in',
 
-    // 'whatsapp' -> form opens WhatsApp with the message prefilled.
-    // 'email'    -> form opens the visitor's mail client instead.
-    // Either way nothing is sent from this site — it is a static page.
-    formMode: 'whatsapp',
+    // Round 1, item B3 — successful submissions land here. Formspree performs
+    // the redirect itself via the _next hidden field in index.html; this
+    // constant is the fallback used if the form is ever submitted by fetch.
+    thankYouUrl: '/thank-you/',
 
     businessName: 'REcore Hardware'
   };
@@ -47,6 +48,53 @@
   var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+
+  /* ------------------------------------------------------------------
+     2b. EVENT TRACKING  —  Round 1, item C1
+
+     One helper for both GA4 and the Meta Pixel. Both are no-ops until the
+     agency's IDs are pasted into index.html, so this is safe to call from
+     anywhere and never throws if the tags are absent.
+     ------------------------------------------------------------------ */
+  function trackEvent(name, params) {
+    params = params || {};
+    try {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, params);
+      }
+      if (typeof window.fbq === 'function') {
+        window.fbq('trackCustom', name, params);
+      }
+    } catch (err) {
+      /* Tracking must never break the page for a dealer on a slow handset. */
+    }
+  }
+
+  /* WhatsApp float, nav WhatsApp CTAs, and both click-to-call numbers.
+     Delegated from the document so links added later are covered too. */
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest ? e.target.closest('a[href]') : null;
+    if (!link) return;
+
+    var href = link.getAttribute('href') || '';
+
+    if (href.indexOf('wa.me') !== -1) {
+      trackEvent('whatsapp_click', {
+        location: link.classList.contains('wa-float') ? 'Floating button'
+                : link.classList.contains('nav__cta') ? 'Navbar'
+                : link.classList.contains('nav__drawer-cta') ? 'Mobile drawer'
+                : 'Contact section'
+      });
+      return;
+    }
+
+    if (href.indexOf('tel:') === 0) {
+      trackEvent('call_click', { phone_number: href.replace('tel:', '') });
+    }
+  }, true);
+
+
 
   // Current navbar height, so anchored sections never hide behind it.
   function navHeight() {
@@ -359,12 +407,25 @@
 
 
   /* ------------------------------------------------------------------
-     11. ENQUIRY FORM
-     Static site, so there is no server: on submit we validate, then
-     hand the enquiry to WhatsApp (or the mail client) prefilled.
+     11. ENQUIRY FORM  —  Round 1, items B1, B2, B3
+
+     The form POSTs natively to the backend declared in its action
+     attribute (Formspree). We validate first and let the browser do the
+     submit, so the backend's own redirect to /thank-you/ fires and the
+     conversion event on that page is recorded. Nothing is sent to
+     WhatsApp on submit any more: WhatsApp is the secondary button.
      ------------------------------------------------------------------ */
   var form = $('#enquiryForm');
   var formNote = $('#formNote');
+  var formSubmit = $('#enquirySubmit');
+  var formWhatsApp = $('#enquiryWhatsApp');
+
+  // True while the backend endpoint is still the unreplaced placeholder.
+  // In that state we refuse to submit rather than lose the enquiry silently.
+  function endpointReady(f) {
+    var action = f.getAttribute('action') || '';
+    return action.indexOf('__') === -1 && /^https?:\/\//.test(action);
+  }
 
   function setFieldError(input, message) {
     var field = input.closest('.field');
@@ -374,25 +435,44 @@
     if (err) err.textContent = message || '';
   }
 
+  function setNote(text, state) {
+    if (!formNote) return;
+    formNote.textContent = text;
+    formNote.classList.toggle('is-ok', state === 'ok');
+    formNote.classList.toggle('is-err', state === 'err');
+  }
+
+  /* A valid Indian mobile is exactly 10 digits and starts 6, 7, 8 or 9.
+     An optional +91 / 0091 / 91 / 0 prefix is stripped before checking, so
+     a dealer typing +91 98765 43210 is accepted (Round 1, item B2). */
+  function indianMobile(raw) {
+    var digits = String(raw).replace(/[^\d]/g, '');
+    digits = digits.replace(/^(?:0091|91|0)(?=[6-9]\d{9}$)/, '');
+    return /^[6-9]\d{9}$/.test(digits) ? digits : null;
+  }
+
+  function requireText(el, message, min) {
+    var value = el.value.trim();
+    if (value.length < (min || 1)) { setFieldError(el, message); return false; }
+    setFieldError(el, '');
+    return true;
+  }
+
   function validate() {
     var ok = true;
 
-    var name = $('#fName');
-    var phone = $('#fPhone');
-    var email = $('#fEmail');
+    var name        = $('#fName');
+    var phone       = $('#fPhone');
+    var email       = $('#fEmail');
+    var firm        = $('#fFirm');
+    var city        = $('#fCity');
+    var requirement = $('#fRequirement');
 
-    // Name — at least 2 characters
-    if (!name.value.trim() || name.value.trim().length < 2) {
-      setFieldError(name, 'Please enter your name.');
-      ok = false;
-    } else {
-      setFieldError(name, '');
-    }
+    if (!requireText(name, 'Please enter your name.', 2)) ok = false;
 
-    // Phone — 10 to 15 digits, ignoring spaces, dashes, brackets and "+"
-    var digits = phone.value.replace(/[^\d]/g, '');
-    if (digits.length < 10 || digits.length > 15) {
-      setFieldError(phone, 'Please enter a valid phone number.');
+    // Phone — 10-digit Indian mobile (B2)
+    if (!indianMobile(phone.value)) {
+      setFieldError(phone, 'Enter a 10-digit Indian mobile number.');
       ok = false;
     } else {
       setFieldError(phone, '');
@@ -406,8 +486,19 @@
       setFieldError(email, '');
     }
 
+    // The three dealer-qualifying fields (B2) — all required
+    if (!requireText(firm, 'Please enter your firm or shop name.', 2)) ok = false;
+    if (!requireText(city, 'Please enter your city.', 2)) ok = false;
+
+    if (!requirement.value) {
+      setFieldError(requirement, 'Please choose your monthly requirement.');
+      ok = false;
+    } else {
+      setFieldError(requirement, '');
+    }
+
     if (!ok) {
-      var firstBad = $('.field.is-invalid input');
+      var firstBad = $('.field.is-invalid input, .field.is-invalid select');
       if (firstBad) firstBad.focus();
     }
 
@@ -419,11 +510,16 @@
       'Hello ' + CONFIG.businessName + ',',
       '',
       'Name: ' + $('#fName').value.trim(),
+      'Firm / Shop: ' + $('#fFirm').value.trim(),
+      'City: ' + $('#fCity').value.trim(),
       'Phone: ' + $('#fPhone').value.trim()
     ];
 
     var email = $('#fEmail').value.trim();
     if (email) lines.push('Email: ' + email);
+
+    var requirement = $('#fRequirement').value;
+    if (requirement) lines.push('Monthly requirement: ' + requirement);
 
     var product = $('#fProduct').value;
     if (product) lines.push('Product interest: ' + product);
@@ -437,35 +533,60 @@
 
   if (form) {
     form.addEventListener('submit', function (e) {
-      e.preventDefault();
-
       if (!validate()) {
-        formNote.textContent = 'Please correct the highlighted fields.';
-        formNote.classList.remove('is-ok');
+        e.preventDefault();
+        setNote('Please correct the highlighted fields.', 'err');
         return;
       }
 
-      var body = buildMessage();
-      var url;
-
-      if (CONFIG.formMode === 'email') {
-        url = 'mailto:' + CONFIG.email +
-              '?subject=' + encodeURIComponent('Website enquiry — ' + CONFIG.businessName) +
-              '&body=' + encodeURIComponent(body);
-        window.location.href = url;
-      } else {
-        url = 'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(body);
-        window.open(url, '_blank', 'noopener');
+      if (!endpointReady(form)) {
+        e.preventDefault();
+        setNote(
+          'The enquiry form is not connected yet. Please call +91 92571 58637 ' +
+          'or use the WhatsApp button below.',
+          'err'
+        );
+        // Loud in the console so this can never reach production unnoticed.
+        if (window.console) {
+          console.error(
+            '[REcore] Enquiry form endpoint is still a placeholder. ' +
+            'Replace __FORMSPREE_FORM_ID__ in the form action in index.html.'
+          );
+        }
+        return;
       }
 
-      formNote.textContent = 'Opening ' + (CONFIG.formMode === 'email' ? 'your email app' : 'WhatsApp') + ' with your enquiry…';
-      formNote.classList.add('is-ok');
-      form.reset();
+      // Valid and wired: let the browser POST. The backend redirects to
+      // /thank-you/, where the GA4 conversion and the Pixel Lead event fire.
+      trackEvent('enquiry_submit', { form_name: 'General enquiry' });
+      setNote('Sending your enquiry…', 'ok');
+      if (formSubmit) {
+        formSubmit.disabled = true;
+        formSubmit.textContent = 'Sending…';
+      }
     });
+
+    // Secondary route: hand the same enquiry to WhatsApp (Round 1, B1).
+    if (formWhatsApp) {
+      formWhatsApp.addEventListener('click', function () {
+        if (!validate()) {
+          setNote('Please correct the highlighted fields.', 'err');
+          return;
+        }
+        trackEvent('whatsapp_click', { location: 'Enquiry form' });
+        window.open(
+          'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(buildMessage()),
+          '_blank',
+          'noopener'
+        );
+        setNote('Opening WhatsApp with your enquiry…', 'ok');
+      });
+    }
 
     // Clear a field's error as soon as the visitor starts fixing it
     $$('input, select, textarea', form).forEach(function (el) {
       el.addEventListener('input', function () { setFieldError(el, ''); });
+      el.addEventListener('change', function () { setFieldError(el, ''); });
     });
   }
 

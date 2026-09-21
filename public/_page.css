@@ -1,0 +1,111 @@
+/* ==========================================================================
+   REcore Hardware — shared styles for the standalone static pages
+   (/privacy-policy/, /thank-you/, /404).
+
+   These pages live in public/ and are copied verbatim into the build, so
+   they cannot use the hashed bundle that index.html gets. This file is
+   served unhashed at /_page.css and holds the brand tokens they share.
+   ========================================================================== */
+:root {
+  --brown: #6F4317;
+  --brown-light: #8B5A2B;
+  --brown-dark: #4A2C0F;
+  --ink: #1A1A18;
+  --cream: #F7F4EF;
+  --cream-deep: #EFE9E0;
+  --white: #FFFFFF;
+  --muted: #6B6259;
+  --line: #E3DCD2;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'Jost', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 17px;
+  line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page__bar {
+  background: var(--brown);
+  padding: 18px 0;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px;   /* 16px gutter holds at 360px */
+}
+
+.page__bar img { display: block; height: 46px; width: auto; }
+
+main.page {
+  flex: 1 0 auto;
+  padding: 44px 0 64px;
+}
+
+h1 {
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: clamp(1.75rem, 5vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--brown-dark);
+  margin: 0 0 14px;
+}
+
+h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(1.15rem, 3.4vw, 1.4rem);
+  color: var(--brown-dark);
+  margin: 34px 0 10px;
+}
+
+p { margin: 0 0 16px; }
+
+a { color: var(--brown); }
+a:hover { color: var(--brown-light); }
+
+.lead { font-size: 1.1rem; color: var(--muted); }
+
+.btn {
+  display: inline-block;
+  background: var(--brown);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: .02em;
+  padding: 14px 28px;
+  border-radius: 2px;
+  margin-top: 10px;
+  transition: background .2s ease;
+}
+.btn:hover { background: var(--brown-light); color: var(--white); }
+
+.pending {
+  background: var(--cream-deep);
+  border-left: 3px solid var(--brown-lighter, #C99660);
+  padding: 16px 18px;
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: .95rem;
+}
+
+.page__foot {
+  flex-shrink: 0;
+  background: var(--ink);
+  color: #B9B2A8;
+  font-size: .88rem;
+  padding: 22px 0;
+}
+.page__foot a { color: #C99660; }
+.page__foot p { margin: 0; }

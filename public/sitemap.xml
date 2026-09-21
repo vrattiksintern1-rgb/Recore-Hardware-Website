@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap.xml — recorehardware.in
+  Round 1, item D1. Submit in Google Search Console once DNS propagates.
+
+  /thank-you/ is deliberately absent: it is set to noindex under item B3.
+  Add new URLs here as pages are built (the #dealership section under E3
+  is an anchor on the homepage, so it needs no entry of its own).
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://recorehardware.in/</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://recorehardware.in/privacy-policy/</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>
