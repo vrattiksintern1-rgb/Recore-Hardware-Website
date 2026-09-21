@@ -412,13 +412,13 @@
      The form POSTs natively to the backend declared in its action
      attribute (Formspree). We validate first and let the browser do the
      submit, so the backend's own redirect to /thank-you/ fires and the
-     conversion event on that page is recorded. Nothing is sent to
-     WhatsApp on submit any more: WhatsApp is the secondary button.
+     conversion event on that page is recorded. While the backend endpoint
+     is still a placeholder, submitting falls back to WhatsApp — see the
+     TEMP block in the submit handler below.
      ------------------------------------------------------------------ */
   var form = $('#enquiryForm');
   var formNote = $('#formNote');
   var formSubmit = $('#enquirySubmit');
-  var formWhatsApp = $('#enquiryWhatsApp');
 
   // True while the backend endpoint is still the unreplaced placeholder.
   // In that state we refuse to submit rather than lose the enquiry silently.
@@ -505,6 +505,10 @@
     return ok;
   }
 
+  /* TEMP: WhatsApp fallback until Formspree/Web3Forms backend is connected —
+     replace with real form POST once backend ID is available.
+     Builds the same enquiry text the old "Or send it on WhatsApp" button
+     produced. Delete this function together with the fallback branch below. */
   function buildMessage() {
     var lines = [
       'Hello ' + CONFIG.businessName + ',',
@@ -539,18 +543,28 @@
         return;
       }
 
+      // TEMP: WhatsApp fallback until Formspree/Web3Forms backend is connected —
+      // replace with real form POST once backend ID is available.
+      // While the action attribute is still the __FORMSPREE_FORM_ID__ placeholder
+      // we hand the validated enquiry to WhatsApp instead of losing it. Replacing
+      // the placeholder in index.html switches this off automatically: the branch
+      // stops firing and the native POST below takes over. Once that is done,
+      // delete this block and buildMessage() above.
       if (!endpointReady(form)) {
         e.preventDefault();
-        setNote(
-          'The enquiry form is not connected yet. Please call +91 92571 58637 ' +
-          'or use the WhatsApp button below.',
-          'err'
+        trackEvent('whatsapp_click', { location: 'Enquiry form' });
+        window.open(
+          'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(buildMessage()),
+          '_blank',
+          'noopener'
         );
-        // Loud in the console so this can never reach production unnoticed.
+        setNote('Opening WhatsApp with your enquiry…', 'ok');
+        // Still visible to whoever wires the backend up, without alarming visitors.
         if (window.console) {
-          console.error(
-            '[REcore] Enquiry form endpoint is still a placeholder. ' +
-            'Replace __FORMSPREE_FORM_ID__ in the form action in index.html.'
+          console.warn(
+            '[REcore] Enquiry form endpoint is still a placeholder; sent via the ' +
+            'WhatsApp fallback. Replace __FORMSPREE_FORM_ID__ in the form action ' +
+            'in index.html to enable real submissions.'
           );
         }
         return;
@@ -565,23 +579,6 @@
         formSubmit.textContent = 'Sending…';
       }
     });
-
-    // Secondary route: hand the same enquiry to WhatsApp (Round 1, B1).
-    if (formWhatsApp) {
-      formWhatsApp.addEventListener('click', function () {
-        if (!validate()) {
-          setNote('Please correct the highlighted fields.', 'err');
-          return;
-        }
-        trackEvent('whatsapp_click', { location: 'Enquiry form' });
-        window.open(
-          'https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(buildMessage()),
-          '_blank',
-          'noopener'
-        );
-        setNote('Opening WhatsApp with your enquiry…', 'ok');
-      });
-    }
 
     // Clear a field's error as soon as the visitor starts fixing it
     $$('input, select, textarea', form).forEach(function (el) {

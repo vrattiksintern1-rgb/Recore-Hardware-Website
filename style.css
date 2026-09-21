@@ -803,11 +803,6 @@ button { cursor: pointer; border: 0; background: none; }
   overflow: hidden;
 }
 
-/* Secondary WhatsApp route (Round 1, B1 — no longer the submit action) */
-.form__alt {
-  margin-top: 10px;
-}
-
 .form__legal {
   margin: 12px 0 0;
   color: var(--muted);

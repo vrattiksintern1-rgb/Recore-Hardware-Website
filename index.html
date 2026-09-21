@@ -628,8 +628,9 @@
 <!-- ============================================================
      9. CONTACT / ENQUIRY
      The form POSTs to the backend in its action attribute and the
-     backend redirects to /thank-you/. WhatsApp is the secondary
-     button, not the submit action. See the block above the <form>.
+     backend redirects to /thank-you/. While that endpoint is still a
+     placeholder, submitting falls back to WhatsApp — see the TEMP block
+     in script.js. See also the block above the <form>.
      ============================================================ -->
 <section class="section section--cream" id="contact">
   <div class="wrap contact">
@@ -798,14 +799,12 @@
         <textarea name="message" id="fMessage" rows="4" placeholder="Quantities, project type, city…"></textarea>
       </label>
 
-      <!-- B1: the submit action is the real backend. WhatsApp is now the
-           secondary route, not the submit action. -->
+      <!-- B1: the only action. TEMP: while the action attribute below is
+           still the __FORMSPREE_FORM_ID__ placeholder, script.js intercepts
+           the submit and routes the enquiry to WhatsApp instead. Replacing
+           the placeholder restores the real POST automatically. -->
       <button class="btn btn--brand btn--block btn--lg" type="submit" id="enquirySubmit">
         Send enquiry
-      </button>
-
-      <button class="btn btn--wa btn--block form__alt" type="button" id="enquiryWhatsApp">
-        <svg aria-hidden="true"><use href="#i-whatsapp"></use></svg> Or send it on WhatsApp
       </button>
 
       <p class="form__note" id="formNote" role="status" aria-live="polite">
